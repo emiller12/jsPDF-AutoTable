@@ -25,7 +25,7 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 
     // Base style for all themes
     var defaultStyles = {
-        cellPadding: 5,
+        cellPadding: [5, 5, 5, 5], // [top, right, bottom, left]
         fontSize: 10,
         font: "helvetica", // helvetica, times, courier
         lineColor: 200,
@@ -166,7 +166,6 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
      */
     API.autoTableEndPosY = function () {
         if (typeof cursor === 'undefined' || typeof cursor.y === 'undefined') {
-            console.error("autoTableEndPosY() called without autoTable() being called first");
             return 0;
         }
         return cursor.y;
@@ -332,7 +331,7 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
             cell.raw = typeof rawColumn === 'object' ? rawColumn.title : rawColumn;
             cell.styles = headerRow.styles;
             cell.text = '' + cell.raw;
-            cell.contentWidth = cell.styles.cellPadding * 2 + getStringWidth(cell.text, cell.styles);
+            cell.contentWidth = cell.styles.cellPadding[3] + cell.styles.cellPadding[1] + getStringWidth(cell.text, cell.styles);
             cell.text = cell.text.split(splitRegex);
 
             headerRow.cells[dataKey] = cell;
@@ -355,7 +354,7 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
                 cell.text = typeof cell.raw !== 'undefined' ? '' + cell.raw : ''; // Stringify 0 and false, but not undefined
                 row.cells[column.dataKey] = cell;
                 settings.createdCell(cell, hooksData({ column: column, row: row }));
-                cell.contentWidth = cell.styles.cellPadding * 2 + getStringWidth(cell.text, cell.styles);
+                cell.contentWidth = cell.styles.cellPadding[3] + cell.styles.cellPadding[1] + getStringWidth(cell.text, cell.styles);
                 cell.text = cell.text.split(splitRegex);
             });
             table.rows.push(row);
@@ -427,7 +426,7 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
                 var cell = row.cells[col.dataKey];
                 col.x = cursorX;
                 applyStyles(cell.styles);
-                var textSpace = col.width - cell.styles.cellPadding * 2;
+                var textSpace = col.width - cell.styles.cellPadding[3] + cell.styles.cellPadding[1];
                 if (cell.styles.overflow === 'linebreak') {
                     // Add one pt to textSpace to fix rounding error
                     cell.text = doc.splitTextToSize(cell.text, textSpace + 1, { fontSize: cell.styles.fontSize });
@@ -541,19 +540,19 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
             cell.width = column.width;
 
             if (cell.styles.valign === 'top') {
-                cell.textPos.y = cursor.y + cell.styles.cellPadding;
+                cell.textPos.y = cursor.y + cell.styles.cellPadding[0];
             } else if (cell.styles.valign === 'bottom') {
-                cell.textPos.y = cursor.y + row.height - cell.styles.cellPadding;
+                cell.textPos.y = cursor.y + row.height - cell.styles.cellPadding[2];
             } else {
                 cell.textPos.y = cursor.y + row.height / 2;
             }
 
             if (cell.styles.halign === 'right') {
-                cell.textPos.x = cell.x + cell.width - cell.styles.cellPadding;
+                cell.textPos.x = cell.x + cell.width - cell.styles.cellPadding[1];
             } else if (cell.styles.halign === 'center') {
                 cell.textPos.x = cell.x + cell.width / 2;
             } else {
-                cell.textPos.x = cell.x + cell.styles.cellPadding;
+                cell.textPos.x = cell.x + cell.styles.cellPadding[3];
             }
 
             var data = hooksData({ column: column, row: row });

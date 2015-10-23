@@ -40,7 +40,7 @@ examples.minimal = function () {
     var doc = new jsPDF('p', 'pt');
     doc.autoTable(getColumns(), getData(), {
         tableWidth: 'wrap',
-        styles: {cellPadding: 2},
+        styles: {cellPadding: [2,2,2,2]},
         headerStyles: {rowHeight: 15, fontSize: 8},
         bodyStyles: {rowHeight: 12, fontSize: 8, valign: 'middle'}
     });
@@ -244,6 +244,7 @@ examples.custom = function () {
                 if (cell.raw > 600) {
                     cell.styles.textColor = [255, 100, 100];
                     cell.styles.fontStyle = 'bolditalic';
+                    cell.styles.cellPadding = [5,15,5,5]
                 }
                 cell.text = '$' + cell.text;
             } else if (data.column.dataKey === 'country') {
