@@ -328,7 +328,7 @@ var getColumns = function () {
 // Uses the faker.js library to get random data.
 function getData(rowCount) {
     rowCount = rowCount || 4;
-    var sentence = faker.lorem.words(12);
+    var sentence = faker.lorem.words(100);
     var data = [];
     for (var j = 1; j <= rowCount; j++) {
         data.push({

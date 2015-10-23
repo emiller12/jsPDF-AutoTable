@@ -138,7 +138,7 @@
             minTableBottomPos += table.height;
         }
         if ((settings.pageBreak === 'always' && settings.startY !== false) ||
-            (settings.startY !== false && minTableBottomPos > doc.internal.pageSize.height)) {
+            (settings.startY !== false && minTableBottomPos > doc.internal.pageSize.height && options.styles.overflow != 'linebreak')) {
             doc.addPage();
             cursor.y = settings.margin.top;
         }

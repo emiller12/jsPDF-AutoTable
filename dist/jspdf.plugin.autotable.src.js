@@ -141,7 +141,7 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
         if (settings.pageBreak === 'avoid') {
             minTableBottomPos += table.height;
         }
-        if (settings.pageBreak === 'always' && settings.startY !== false || settings.startY !== false && minTableBottomPos > doc.internal.pageSize.height) {
+        if (settings.pageBreak === 'always' && settings.startY !== false || settings.startY !== false && minTableBottomPos > doc.internal.pageSize.height && options.styles.overflow != 'linebreak') {
             doc.addPage();
             cursor.y = settings.margin.top;
         }
