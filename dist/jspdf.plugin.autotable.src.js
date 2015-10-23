@@ -426,7 +426,7 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
                 var cell = row.cells[col.dataKey];
                 col.x = cursorX;
                 applyStyles(cell.styles);
-                var textSpace = col.width - cell.styles.cellPadding[3] + cell.styles.cellPadding[1];
+                var textSpace = col.width - (cell.styles.cellPadding[3] + cell.styles.cellPadding[1]);
                 if (cell.styles.overflow === 'linebreak') {
                     // Add one pt to textSpace to fix rounding error
                     cell.text = doc.splitTextToSize(cell.text, textSpace + 1, { fontSize: cell.styles.fontSize });
