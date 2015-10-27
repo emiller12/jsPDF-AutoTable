@@ -134,13 +134,17 @@
         // Page break if there is room for only the first data row
         var firstRowHeight = table.rows[0] && settings.pageBreak === 'auto' ? table.rows[0].height : 0;
         var minTableBottomPos = settings.startY + settings.margin.bottom + table.headerRow.height + firstRowHeight;
+        var minTableHeaderBottomPos = settings.startY + settings.margin.bottom + table.headerRow.height;
         if (settings.pageBreak === 'avoid') {
             minTableBottomPos += table.height;
         }
         if ((settings.pageBreak === 'always' && settings.startY !== false) ||
-            (settings.startY !== false && minTableBottomPos > doc.internal.pageSize.height && options.styles.overflow != 'linebreak')) {
+            (settings.startY !== false && minTableBottomPos > doc.internal.pageSize.height &&
+            (table.rows[0].styles.overflow != 'linebreak' || minTableHeaderBottomPos > doc.internal.pageSize.height))) {
+
             doc.addPage();
             cursor.y = settings.margin.top;
+
         }
 
         applyStyles(userStyles);
@@ -496,7 +500,9 @@
                     }
                     row = new Row();
                 }
-                addPage();
+                if (i != table.rows.length - 1) {
+                    addPage();
+                }
             }
             row.y = cursor.y;
             if (settings.drawRow(row, hooksData({row: row})) !== false) {
